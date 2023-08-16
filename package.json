@@ -1,0 +1,13 @@
+{
+  "name": "nodejs-template-1.0",
+  "version": "1.0.0",
+  "description": "nodejs-template-1.0",
+  "main": "server.js",
+  "scripts": {
+    "test": "jest ./src/test"
+  },
+  "dependencies": {
+    "jest": "^29.6.2",
+    "supertest": "^6.3.3"
+  }
+}
