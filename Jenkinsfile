@@ -12,7 +12,7 @@ pipeline {
         IMAGE_TAG="${env.BUILD_ID}"
         //Do not edit REPOSITORY_URI.
         REPOSITORY_URI = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}"
-	    registryCredential = "<REPLACE WITH NAME OF GIT CREDENTIAL>"
+	    registryCredential = "<REPLACE WITH NAME OF AWS CREDENTIAL>"
 	    JOB_NAME = "<REPLACE WITH JOB NAME>"
 	    TEST_CONTAINER_NAME = "${JOB_NAME}-test-server"
     
@@ -51,6 +51,7 @@ pipeline {
      steps{
             withAWS(credentials: registryCredential, region: "${AWS_DEFAULT_REGION}") {
                 script {
+			sh "chmod +x -R ${env.WORKSPACE}"
 			sh './script.sh'
                 }
             } 
@@ -61,7 +62,7 @@ pipeline {
    // For different use cases, one may not want to clear all this data so it doesn't have to be pulled again for each build.
    post {
        always {
-       sh 'docker system prune -a'
+       sh 'docker system prune -a -f'
      }
    }
  }
